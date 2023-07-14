@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>購物車</title>
+  <script>
+function handleSelection() {
+  var selectElement = document.getElementById("select1");
+  var inputBox = document.getElementById("inputBox");
+  var addressInput = document.getElementById("address");
+  var convenienceStoreSelect = document.getElementById("convenienceStoreSelect");
+  var form = document.querySelector("form[action='address.php']");
+
+  if (selectElement.value === "option1") {
+    inputBox.style.display = "none";
+    convenienceStoreSelect.style.display = "block";
+    form.action = "convenient_store.php";
+
+    // 取得 convenience_store 的選項
+    var convenienceStoreOptions = getConvenienceStoreOptions();
+
+    // 將選項加入下拉式選單
+    convenienceStoreSelect.innerHTML = convenienceStoreOptions;
+  } else {
+    inputBox.style.display = "block";
+    convenienceStoreSelect.style.display = "none";
+    form.action = "address.php";
+  }
+}
+
+function getConvenienceStoreOptions() {
+  // 這裡假設您已經有一個 convenienceStoreData 的變數存放 convenience_store 資料表的資料
+
+  // 建立一個空字串用於儲存選項的 HTML
+  var optionsHTML = "";
+
+  // 逐一取得 convenience_store 的 store_name
+  for (var i = 0; i < convenienceStoreData.length; i++) {
+    var storeName = convenienceStoreData[i].store_name;
+
+    // 將 store_name 加入選項的 HTML 中
+    optionsHTML += "<option value='" + storeName + "'>" + storeName + "</option>";
+  }
+
+  return optionsHTML;
+}
+
+  </script>
+  <script>
+    function openPopup() {
+      // 打开弹出窗口
+      window.open('coupon_popup.html', 'popup', 'width=400,height=300');
+    }
+  </script>
+  <script src="https://kit.fontawesome.com/85f44df16e.js" crossorigin="anonymous"></script>
+
+  <style>
+     /* CSS 樣式設定 */
+	#checkout-title {
+		background-color: #5599FF;
+		color: #ffffff;
+		padding: 10px;
+		font-size: 24px;
+	}
+       #checkout-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #5599FF;
+        color: #ffffff;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+    .selected-items {
+      background-color: rgb(247, 238, 238);
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border:none;
+    }
+    th, td {
+      border: none;
+      padding: 10px;
+    }
+	th.name, td.name {
+      text-align: left; /* 將名稱欄位靠左對齊 */
+    }
+    .name {
+      width: 40%;
+    }
+    .value {
+      width: 15%;
+    }
+    /* CSS 樣式設定 */
+    .payment-option {
+      display: inline-block;
+      padding: 8px;
+      border: 1px solid lightgray;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+    }
+    .selected-payment-option {
+	  color :#ffffff;
+	  background-color:rgb(125,125,232);
+      border: 2px solid rgb(125, 125, 232);
+    }
+    .invoice-option{
+      display: inline-block;
+      padding: 8px;
+      border: 1px solid lightgray;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+    }
+    .selected-invoice-option {
+	  color :#ffffff;
+	  background-color:rgb(125,125,232);
+      border: 2px solid rgb(125, 125, 232);
+    }	
+
+  </style>
+  <script>
+    function selectPaymentOption() {
+      var paymentOption = document.getElementById("paymentOption");
+      paymentOption.classList.toggle("selected-payment-option");
+      var additionalText = document.getElementById("additionalText");
+      additionalText.style.display = paymentOption.classList.contains("selected-payment-option") ? "block" : "none";
+	}
+    function selectInvoiceOption(type) {
+    var electronicInvoiceOption = document.getElementById("electronicInvoiceOption");
+    var paperInvoiceOption = document.getElementById("paperInvoiceOption");
+    var invoiceAdditionalText = document.getElementById("invoiceAdditionalText");
+
+    if (type === "electronic") {
+      invoiceAdditionalText.innerText = "電子發票 付完款才會寄送至信箱內";
+    } else if (type === "paper") {
+      invoiceAdditionalText.innerText = "紙本發票 附在箱子裡";
+    }
+
+    invoiceAdditionalText.style.display = "block";
+    electronicInvoiceOption.classList.remove("selected-invoice-option");
+    paperInvoiceOption.classList.remove("selected-invoice-option");
+    document.getElementById(type + "InvoiceOption").classList.add("selected-invoice-option");
+  }
+  </script>
+<script>
+  function selectShippingOption(type) {
+    if (type === "convenienceStore") {
+      window.location.href = "convenientstore_detail.php";
+    } else if (type === "home") {
+      var addressInput = document.getElementById("addressInput");
+      addressInput.style.display = "block";
+    }
+  }
+  function getConvenienceStoreOptions() {
+  var optionsHTML = ""; // 用于存储选项的 HTML
+
+  for (var i = 0; i < convenienceStoreData.length; i++) {
+    var storeName = convenienceStoreData[i].store_name;
+    optionsHTML += "<option value='" + storeName + "'>" + storeName + "</option>";
+  }
+
+  return optionsHTML;
+}
+
+</script>
+
+	  
+	  
+</head>
+
+<body>
+
+  <h1 id="checkout-title">
+    <i class="fas fa-shopping-cart"></i>購物車
+	<a href="http://192.168.63.1//BookStore_Login.php" style="float: right;">首頁</a>
+  </h1>
+  <br>
+  <div class="selected-items">
+    
+    <table>
+      <tr>
+        <th class="name">名稱</th>
+        <th class="value">單價</th>
+        <th class="value">數量</th>
+        <th class="value">總計</th>
+      </tr>
+
+    </table>
+
+  </div>
+  <br><br>
+  &nbsp;&nbsp;&nbsp;
+  
+  <a href="javascript:void(0);" onclick="openPopup();">使用優惠券</a>
+  </i><br><br>
+  
+
+<div class="selected-items">
+  <label><span style="font-size: 20px;"><b>寄送方式</b></span>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+  <div class="shipping-option selected-payment-option" id="convenienceStoreOption" onclick="selectShippingOption('convenienceStore')">超商取貨</div>
+  <div class="shipping-option" id="homeOption" onclick="selectShippingOption('home')">宅配到府</div>
+  <div id="shippingAdditionalText" style="display: none;"></div>
+</div>
+
+
+<div id="addressInput" style="display: none;">
+  <label for="address">請輸入收件地址：</label>
+  <input type="text" name="address" id="address" required>
+  <input type="submit" value="確認">
+</div>
+
+
+  <script>
+    function handleSelection() {
+      var selectElement = document.getElementById("select1");
+      var inputBox = document.getElementById("inputBox");
+      var addressInput = document.getElementById("address");
+      var form = document.querySelector("form[action='address.php']");
+
+      if (selectElement.value === "option2") {
+        inputBox.style.display = "block";
+        addressInput.value = ""; // 清空地址输入框的值
+        form.action = "address.php";
+      } else {
+        inputBox.style.display = "none";
+        form.action = ""; // 或设置为其他不需要处理地址的页面
+      }
+    }
+  </script>
+
+  <br><br><br>
+  <div class="selected-items"> 
+    <label><span style="font-size: 20px;"><b>付款方式</b></span>&nbsp;&nbsp;&nbsp;&nbsp;</label> 
+    <div class="payment-option" id="paymentOption" onclick="selectPaymentOption()">
+      貨到付款
+    </div>
+	<div id="additionalText" style="display: none;">
+    <p>貨到付款&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;現付</p>
+    </div>
+  </div>  
+  
+  <div class="selected-items"> 
+    <label><span style="font-size: 20px;"><b>發票形式</b></span>&nbsp;&nbsp;&nbsp;&nbsp;</label> 
+    <div class="invoice-option" id="electronicInvoiceOption" onclick="selectInvoiceOption('electronic')">電子發票</div>
+	&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="invoice-option" id="paperInvoiceOption" onclick="selectInvoiceOption('paper')">紙本發票</div>
+    <div id="invoiceAdditionalText" style="display: none;"></div>
+
+  <br><br>
+  <button id="checkout-btn" onclick="redirectToHomePage()"><b>結帳</b></button>
+  <script>
+  function redirectToHomePage() {
+    window.location.href = "http://192.168.63.1//BookStore_Login.php"; 
+  }
+  </script>
+
+</body>
+</html>

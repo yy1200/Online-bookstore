@@ -1,0 +1,25 @@
+<div id="convenienceStoreSelect" style="display: none;">
+  <label for="convenienceStore">請選擇超商：</label>
+  <select name="convenienceStore" id="convenienceStore">
+    <option value="">---</option>
+    <?php
+    // 连接数据库
+    include("user_connect.php");
+
+    // 查询convenient_store表中的数据
+    $sql = "SELECT * FROM convenient_store";
+    $result = $conn->query($sql);
+
+    // 将查询结果作为下拉式选单的选项
+    if ($result->num_rows > 0) {
+      while ($row = $result->fetch_assoc()) {
+        $storeName = $row['store_name'];
+        echo "<option value=\"$storeName\">$storeName</option>";
+      }
+    }
+
+    // 关闭数据库连接
+    $conn->close();
+    ?>
+  </select>
+</div>

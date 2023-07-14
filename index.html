@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <py-env> 
+      - numpy 
+      - csv 
+      - random
+      - pandas
+      - requests
+      - paths:
+        - main_dataset.csv
+    </py-env>
+  </head>
+
+  <body>
+    
+    <h1>二次函數</h1>
+    <div id="quad"></div>
+    <p id="csv"></p>
+    <py-config>
+        packages = [
+            "numpy",
+            "pandas",
+            "jinja2",
+            "requests"
+        ]
+        [[fetch]]
+        from = 'https://raw.githubusercontent.com/yy1200/test/main/main_dataset.csv'
+    </py-config>
+    <py-script src="./book_rs.py"></py-script>
+
+    <!-- <py-script output="quad"> -->
+
+        
+        
+            
+    <!-- </py-script> -->
+  </body>
+</html>
